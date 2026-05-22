@@ -1,0 +1,9 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/parse"
+  to = "/.netlify/functions/parse"
+  status = 200
+  force = true
