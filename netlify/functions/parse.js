@@ -5,7 +5,9 @@ exports.handler = async (event) => {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
     'access-control-allow-methods': 'POST, OPTIONS',
-    'access-control-allow-headers': 'content-type'
+    'access-control-allow-headers': 'content-type',
+    'cache-control': 'no-store, max-age=0',
+    pragma: 'no-cache'
   };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -36,7 +38,7 @@ exports.handler = async (event) => {
       };
     }
 
-    const result = await parseDouyinInput(input);
+    const result = toPublicResult(await parseDouyinInput(input));
 
     return {
       statusCode: 200,
@@ -51,3 +53,15 @@ exports.handler = async (event) => {
     };
   }
 };
+
+function toPublicResult(result) {
+  const authorUid = result.authorUid || '';
+  const videoUid = result.videoUid || result.awemeId || '';
+
+  return {
+    authorUid,
+    videoUid,
+    shareUrl: result.shareUrl || '',
+    found: Boolean(authorUid || videoUid)
+  };
+}

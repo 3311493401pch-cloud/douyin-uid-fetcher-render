@@ -66,7 +66,19 @@ async function handleParse(req, res) {
   }
 
   const result = await parseDouyinInput(input);
-  sendJson(res, 200, { ok: true, data: result });
+  sendJson(res, 200, { ok: true, data: toPublicResult(result) });
+}
+
+function toPublicResult(result) {
+  const authorUid = result.authorUid || '';
+  const videoUid = result.videoUid || result.awemeId || '';
+
+  return {
+    authorUid,
+    videoUid,
+    shareUrl: result.shareUrl || '',
+    found: Boolean(authorUid || videoUid)
+  };
 }
 
 async function parseDouyinInput(input) {
@@ -539,7 +551,11 @@ function readRequestBody(req) {
 }
 
 function sendJson(res, status, payload) {
-  res.writeHead(status, { 'content-type': 'application/json; charset=utf-8' });
+  res.writeHead(status, {
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store, max-age=0',
+    pragma: 'no-cache'
+  });
   res.end(JSON.stringify(payload));
 }
 
