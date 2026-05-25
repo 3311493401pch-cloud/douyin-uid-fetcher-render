@@ -22,9 +22,9 @@ http://localhost:3000
 
 如果 `3000` 端口被占用，程序会自动尝试 `3001`、`3002` 等后续端口。
 
-## 部署成公网网站
+## Render 部署
 
-推荐使用 Render 部署，因为本项目需要运行 Node.js 后端服务。
+本项目推荐使用 Render 部署，因为项目需要运行 Node.js 后端服务，并提供 `/api/parse` 接口。
 
 ### 1. 上传到 GitHub
 
@@ -67,6 +67,21 @@ https://douyin-uid-fetcher.onrender.com
 
 把这个地址发给别人，别人就可以直接访问。
 
+## Render 配置
+
+仓库中已包含 `render.yaml`，Render 连接 GitHub 仓库后可以自动读取配置：
+
+```text
+Service Type: Web Service
+Runtime: Node
+Plan: Free
+Build Command: npm install
+Start Command: npm start
+Health Check Path: /
+```
+
+Render 会自动注入 `PORT` 环境变量，项目会使用该端口启动服务。
+
 ## Render 手动配置参考
 
 如果 Render 没有自动读取配置，可以手动填写：
@@ -79,6 +94,10 @@ Health Check Path: /
 ```
 
 环境变量可以不填。
+
+## 不再使用 Netlify
+
+本项目当前已整理为 Render Web Service 部署方式。前端静态文件由 `server.js` 从 `public` 目录提供，接口也由同一个 Node.js 服务提供。
 
 ## 注意事项
 

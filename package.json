@@ -2,14 +2,14 @@
   "name": "douyin-id-fetcher",
   "version": "1.0.0",
   "private": true,
-  "description": "A local website for resolving Douyin share links and extracting author/video IDs.",
+  "description": "A Render web service for resolving Douyin share links and extracting author/video IDs.",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18 <23"
   },
   "keywords": [
     "douyin",
