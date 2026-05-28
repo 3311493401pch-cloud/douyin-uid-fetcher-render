@@ -23,9 +23,6 @@
           <button id="fillExampleButton" class="ghost-button" type="button">填入示例</button>
         </div>
 
-        <label class="input-label" for="nameInput">你的抖音名称</label>
-        <input type="text" id="nameInput" class="name-input" placeholder="首次使用请填入你的抖音昵称，之后会自动记住" autocomplete="off" />
-
         <label class="input-label" for="shareInput">分享文本 / 视频链接</label>
         <textarea id="shareInput" placeholder="例如：8.28 复制打开抖音，看看【声声的图文作品】打卡day1 ... https://v.douyin.com/VSrlMSTA1FM/ gbA:/ :2pm 03/03 X@M.Ji"></textarea>
 
@@ -42,14 +39,15 @@
           <div>
             <h2>解析结果</h2>
           </div>
-          <button id="copyAllButton" class="copy-all-button" type="button" disabled>📋 一键复制整行</button>
         </div>
 
         <div id="resultGrid" class="result-grid"></div>
 
-        <div class="copy-preview">
-          <p class="copy-preview-label">复制预览（Tab 分隔，可直接粘贴到 Excel / 飞书表格）</p>
-          <code id="copyPreview" class="copy-preview-code"></code>
+        <label class="input-label" for="nameInput">你的抖音名称</label>
+        <input type="text" id="nameInput" class="name-input" placeholder="首次使用请填入你的抖音昵称，之后会自动记住" autocomplete="off" />
+
+        <div class="actions">
+          <button id="copyAllButton" class="copy-all-button" type="button" disabled>📋 一键复制整行</button>
         </div>
       </section>
 

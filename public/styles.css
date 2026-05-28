@@ -323,35 +323,6 @@ textarea:focus {
   box-shadow: none;
 }
 
-.copy-preview {
-  margin-top: 22px;
-  padding: 18px;
-  border: 1px solid rgba(100, 116, 139, 0.16);
-  border-radius: 18px;
-  background: rgba(248, 250, 252, 0.82);
-}
-
-.copy-preview-label {
-  margin: 0 0 10px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.copy-preview-code {
-  display: block;
-  padding: 14px 18px;
-  border-radius: 14px;
-  background: #0f172a;
-  color: #e2e8f0;
-  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  word-break: break-all;
-  white-space: pre-wrap;
-  overflow-x: auto;
-}
-
 .privacy-notice {
   margin-top: 18px;
   padding: 16px 18px;

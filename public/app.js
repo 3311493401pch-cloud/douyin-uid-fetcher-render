@@ -4,7 +4,6 @@ const parseButton = document.querySelector('#parseButton');
 const clearButton = document.querySelector('#clearButton');
 const fillExampleButton = document.querySelector('#fillExampleButton');
 const copyAllButton = document.querySelector('#copyAllButton');
-const copyPreview = document.querySelector('#copyPreview');
 const message = document.querySelector('#message');
 const resultPanel = document.querySelector('#resultPanel');
 const resultGrid = document.querySelector('#resultGrid');
@@ -78,7 +77,6 @@ clearButton.addEventListener('click', () => {
   shareInput.value = '';
   lastParsedData = null;
   resultPanel.classList.add('hidden');
-  copyPreview.textContent = '';
   copyAllButton.disabled = true;
   hideMessage();
   shareInput.focus();
@@ -163,9 +161,6 @@ function renderResult(data) {
     resultGrid.appendChild(createResultCard(field.label, data[field.key], field.full));
   }
 
-  // Update preview
-  const row = buildCopyRow(data);
-  copyPreview.textContent = row;
   copyAllButton.disabled = false;
 
   resultPanel.classList.remove('hidden');
