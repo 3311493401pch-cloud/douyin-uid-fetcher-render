@@ -47,11 +47,8 @@ nameInput.addEventListener('change', () => {
 // --- Date helper (Shanghai UTC+8) ---
 
 function getShanghaiDateString() {
-  const now = new Date();
-  const SHANGHAI_OFFSET_MIN = 480; // UTC+8
-  const localOffsetMin = now.getTimezoneOffset();
-  const shanghaiMs = now.getTime() + (SHANGHAI_OFFSET_MIN - localOffsetMin) * 60000;
-  const s = new Date(shanghaiMs);
+  const SHANGHAI_OFFSET_MS = 8 * 60 * 60 * 1000; // UTC+8
+  const s = new Date(Date.now() + SHANGHAI_OFFSET_MS);
   return `${s.getUTCMonth() + 1}.${s.getUTCDate()}`;
 }
 
