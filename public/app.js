@@ -48,8 +48,11 @@ nameInput.addEventListener('change', () => {
 
 function getShanghaiDateString() {
   const now = new Date();
-  const shanghai = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
-  return `${shanghai.getMonth() + 1}.${shanghai.getDate()}`;
+  const SHANGHAI_OFFSET_MIN = 480; // UTC+8
+  const localOffsetMin = now.getTimezoneOffset();
+  const shanghaiMs = now.getTime() + (SHANGHAI_OFFSET_MIN - localOffsetMin) * 60000;
+  const s = new Date(shanghaiMs);
+  return `${s.getUTCMonth() + 1}.${s.getUTCDate()}`;
 }
 
 // --- Build copy row ---
