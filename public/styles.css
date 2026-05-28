@@ -323,16 +323,30 @@ textarea:focus {
   box-shadow: none;
 }
 
-.privacy-notice {
-  margin-top: 18px;
-  padding: 16px 18px;
+.disclaimer {
+  margin-top: 32px;
+  padding: 22px 24px;
   border: 1px solid rgba(100, 116, 139, 0.16);
   border-radius: 20px;
-  color: #475569;
-  background: rgba(255, 255, 255, 0.68);
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.6);
   font-size: 13px;
-  line-height: 1.7;
-  text-align: center;
+  line-height: 1.8;
+}
+
+.disclaimer h3 {
+  margin: 0 0 12px;
+  color: #334155;
+  font-size: 14px;
+}
+
+.disclaimer ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.disclaimer li {
+  margin-bottom: 4px;
 }
 
 .details-box {
