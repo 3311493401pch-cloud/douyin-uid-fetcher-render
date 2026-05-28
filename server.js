@@ -25,12 +25,70 @@ const requestHeaders = {
   pragma: 'no-cache'
 };
 
+// --- Rate limiter: 5 requests per minute per IP ---
+
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 5;
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { windowStart: now, count: 1 });
+    return { allowed: true };
+  }
+
+  entry.count += 1;
+
+  if (entry.count > RATE_LIMIT_MAX) {
+    return { allowed: false, retryAfter: Math.ceil((entry.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000) };
+  }
+
+  return { allowed: true };
+}
+
+// Clean stale rate-limit entries every 5 minutes
+setInterval(() => {
+  const cutoff = Date.now() - RATE_LIMIT_WINDOW_MS;
+  for (const [ip, entry] of rateLimitMap) {
+    if (entry.windowStart < cutoff) rateLimitMap.delete(ip);
+  }
+}, 300_000).unref();
+
+// --- Douyin link validation ---
+
+function hasDouyinLink(input) {
+  return /(?:douyin\.com|iesdouyin\.com)/i.test(input);
+}
+
+// --- Server ---
+
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
 
     if (req.method === 'POST' && url.pathname === '/api/parse') {
+      const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
+      const limit = checkRateLimit(ip);
+
+      if (!limit.allowed) {
+        res.writeHead(429, {
+          'content-type': 'application/json; charset=utf-8',
+          'retry-after': String(limit.retryAfter),
+          'cache-control': 'no-store'
+        });
+        res.end(JSON.stringify({ ok: false, error: `请求过于频繁，请 ${limit.retryAfter} 秒后再试。` }));
+        return;
+      }
+
       await handleParse(req, res);
+      return;
+    }
+
+    if (req.method === 'GET' && url.pathname === '/health') {
+      sendJson(res, 200, { ok: true, status: 'healthy' });
       return;
     }
 
@@ -62,6 +120,11 @@ async function handleParse(req, res) {
 
   if (!input) {
     sendJson(res, 400, { ok: false, error: '请粘贴抖音分享文本或链接' });
+    return;
+  }
+
+  if (!hasDouyinLink(input)) {
+    sendJson(res, 400, { ok: false, error: '请输入有效的抖音分享链接（含 douyin.com）' });
     return;
   }
 

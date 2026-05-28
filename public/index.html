@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>抖音 UID 获取工具</title>
+    <title>活动填表辅助工具</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <main class="page-shell">
       <section class="hero">
-        <div class="hero-badge">Douyin UID</div>
-        <h1>抖音 UID 获取</h1>
-        <p>粘贴抖音分享文本或短链接，自动提取 UID 信息。</p>
+        <div class="hero-badge">📋 辅助填表</div>
+        <h1>活动填表辅助工具</h1>
+        <p>粘贴抖音分享文本，一键复制格式化行数据，直接粘贴到活动表格。</p>
       </section>
 
       <section class="panel input-panel">
@@ -22,6 +22,9 @@
           </div>
           <button id="fillExampleButton" class="ghost-button" type="button">填入示例</button>
         </div>
+
+        <label class="input-label" for="nameInput">你的抖音名称</label>
+        <input type="text" id="nameInput" class="name-input" placeholder="首次使用请填入你的抖音昵称，之后会自动记住" autocomplete="off" />
 
         <label class="input-label" for="shareInput">分享文本 / 视频链接</label>
         <textarea id="shareInput" placeholder="例如：8.28 复制打开抖音，看看【声声的图文作品】打卡day1 ... https://v.douyin.com/VSrlMSTA1FM/ gbA:/ :2pm 03/03 X@M.Ji"></textarea>
@@ -39,13 +42,19 @@
           <div>
             <h2>解析结果</h2>
           </div>
+          <button id="copyAllButton" class="copy-all-button" type="button" disabled>📋 一键复制整行</button>
         </div>
 
         <div id="resultGrid" class="result-grid"></div>
+
+        <div class="copy-preview">
+          <p class="copy-preview-label">复制预览（Tab 分隔，可直接粘贴到 Excel / 飞书表格）</p>
+          <code id="copyPreview" class="copy-preview-code"></code>
+        </div>
       </section>
 
       <footer class="privacy-notice">
-        本工具仅用于方便创作者参加官方活动时快捷获取公开的 UID/视频 ID，工具不存储任何用户隐私数据，解析结果均来自公开网络请求。
+        本工具仅用于辅助创作者参与官方活动时快捷填表，抖音名称仅保存在你的浏览器本地，不会上传到服务器。
       </footer>
     </main>
 
