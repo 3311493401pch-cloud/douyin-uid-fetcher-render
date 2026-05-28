@@ -63,6 +63,22 @@ function hasDouyinLink(input) {
   return /(?:douyin\.com|iesdouyin\.com)/i.test(input);
 }
 
+// --- API token guard ---
+
+const PARSE_TOKEN = 'dytool-v1-4a7b9c2e';
+
+function validateApiRequest(req) {
+  const token = req.headers['x-parse-token'];
+  if (token === PARSE_TOKEN) return true;
+
+  // Also accept requests from same origin (browser sends Origin matching Host)
+  const origin = req.headers['origin'];
+  const host = req.headers['host'];
+  if (origin && host && origin.endsWith(host)) return true;
+
+  return false;
+}
+
 // --- Server ---
 
 const server = http.createServer(async (req, res) => {
@@ -70,6 +86,11 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
 
     if (req.method === 'POST' && url.pathname === '/api/parse') {
+      if (!validateApiRequest(req)) {
+        sendJson(res, 403, { ok: false, error: '禁止访问：请通过网页正常使用本工具' });
+        return;
+      }
+
       const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress || 'unknown';
       const limit = checkRateLimit(ip);
 

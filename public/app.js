@@ -133,7 +133,10 @@ async function parseInput() {
   try {
     const response = await fetch('/api/parse', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: {
+        'content-type': 'application/json',
+        'x-parse-token': 'dytool-v1-4a7b9c2e'
+      },
       body: JSON.stringify({ input })
     });
 
