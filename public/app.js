@@ -46,9 +46,16 @@ nameInput.addEventListener('change', () => {
 // --- Date helper (Shanghai UTC+8) ---
 
 function getShanghaiDateString() {
-  const SHANGHAI_OFFSET_MS = 8 * 60 * 60 * 1000; // UTC+8
-  const s = new Date(Date.now() + SHANGHAI_OFFSET_MS);
-  return `${s.getUTCMonth() + 1}.${s.getUTCDate()}`;
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(new Date());
+
+  const month = parseInt(parts.find(p => p.type === 'month').value, 10);
+  const day = parseInt(parts.find(p => p.type === 'day').value, 10);
+  return `${month}.${day}`;
 }
 
 // --- Build copy row ---
