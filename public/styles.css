@@ -295,6 +295,39 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(255, 45, 85, 0.1);
 }
 
+.tag-fieldset {
+  margin: 16px 0 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(100, 116, 139, 0.16);
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.7);
+}
+
+.tag-fieldset legend {
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tag-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tag-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff2d55;
+  cursor: pointer;
+}
+
 .name-input::placeholder {
   color: #94a3b8;
 }

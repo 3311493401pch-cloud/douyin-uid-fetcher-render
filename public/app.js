@@ -3,6 +3,8 @@ const nameInput = document.querySelector('#nameInput');
 const parseButton = document.querySelector('#parseButton');
 const clearButton = document.querySelector('#clearButton');
 const fillExampleButton = document.querySelector('#fillExampleButton');
+const tag1 = document.querySelector('#tag1');
+const tag2 = document.querySelector('#tag2');
 const copyAllButton = document.querySelector('#copyAllButton');
 const message = document.querySelector('#message');
 const resultPanel = document.querySelector('#resultPanel');
@@ -43,6 +45,27 @@ nameInput.addEventListener('change', () => {
   }
 });
 
+// --- Tag checkbox cookie ---
+
+const COOKIE_TAGS = 'douyin_tags';
+
+function loadTags() {
+  const saved = getCookie(COOKIE_TAGS);
+  if (saved === '1,0') { tag1.checked = true; tag2.checked = false; }
+  else if (saved === '0,1') { tag1.checked = false; tag2.checked = true; }
+  else if (saved === '0,0') { tag1.checked = false; tag2.checked = false; }
+  // default: both checked (no cookie or '1,1')
+}
+
+function saveTags() {
+  const val = `${tag1.checked ? 1 : 0},${tag2.checked ? 1 : 0}`;
+  setCookie(COOKIE_TAGS, val, COOKIE_DAYS);
+}
+
+loadTags();
+tag1.addEventListener('change', saveTags);
+tag2.addEventListener('change', saveTags);
+
 // --- Date helper (Shanghai UTC+8) ---
 
 function getShanghaiDateString() {
@@ -65,11 +88,17 @@ function buildCopyRow(data) {
     getShanghaiDateString(),                                    // 1. 日期
     nameInput.value.trim() || '(未填名称)',                      // 2. 抖音名称
     data.authorUid || '',                                       // 3. 作者 UID
-    '1w以下',                                                   // 4. 粉丝量级
-    '#抖音学习充能企划',                                         // 5. 活动话题
-    data.videoUid || '',                                        // 6. 视频 UID
-    data.shareUrl || ''                                         // 7. 分享链接
+    '1w以下'                                                    // 4. 粉丝量级
   ];
+
+  if (tag1.checked) cols.push('#抖音学习充能企划');
+  if (tag2.checked) cols.push('#这就是我备考的动力');
+
+  cols.push(
+    data.videoUid || '',                                        // 视频 UID
+    data.shareUrl || ''                                         // 分享链接
+  );
+
   return cols.join('\t');
 }
 
